@@ -1,0 +1,20 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title mb-4">Detalles del Autor</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>ID del Autor:</strong> {{autor.idAutor}}</p>
+                <p><strong>Nombre:</strong> {{autor.Nombre}}</p>
+                <p><strong>Nacionalidad:</strong> {{autor.Nacional}}</p>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="/autores" class="btn btn-primary">
+                <i class="bi bi-arrow-left"></i> Volver a la lista
+            </a>
+            <a href="/autores/edit/{{autor.idAutor}}" class="btn btn-secondary">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+        </div>
+    </div>
+</div>

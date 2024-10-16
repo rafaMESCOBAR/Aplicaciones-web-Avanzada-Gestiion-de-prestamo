@@ -1,0 +1,58 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title mb-4">Editar Usuario</h1>
+        <form id="editUserForm">
+            <div class="mb-3">
+                <label for="numeroDeUsuario" class="form-label">Número de Usuario</label>
+                <input type="number" class="form-control" id="numeroDeUsuario" name="NumeroDeUsuario" value="{{usuario.NumeroDeUsuario}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="nif" class="form-label">NIF</label>
+                <input type="text" class="form-control" id="nif" name="NIF" value="{{usuario.NIF}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="Nombre" value="{{usuario.Nombre}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input type="text" class="form-control" id="direccion" name="Direccion" value="{{usuario.Direccion}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" id="telefono" name="Telefono" value="{{usuario.Telefono}}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="/usuarios" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const userData = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/usuarios/{{usuario.idUsuario}}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
+
+        if (response.ok) {
+            alert('Usuario actualizado correctamente');
+            window.location.href = '/usuarios';
+        } else {
+            const errorData = await response.json();
+            alert('Error al actualizar usuario: ' + errorData.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al conectar con el servidor');
+    }
+});
+</script>

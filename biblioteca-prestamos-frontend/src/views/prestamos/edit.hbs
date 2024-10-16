@@ -1,0 +1,66 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title mb-4">Editar Préstamo</h1>
+        <form id="editPrestamoForm">
+            <div class="mb-3">
+                <label for="usuario" class="form-label">Usuario</label>
+                <select class="form-select" id="usuario" name="idUsuario" required>
+                    {{#each usuarios}}
+                        <option value="{{this.idUsuario}}" {{#if (eq this.idUsuario ../prestamo.idUsuario)}}selected{{/if}}>
+                            {{this.Nombre}}
+                        </option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="libro" class="form-label">Libro</label>
+                <select class="form-select" id="libro" name="idLibro" required>
+                    {{#each libros}}
+                        <option value="{{this.idLibro}}" {{#if (eq this.idLibro ../prestamo.idLibro)}}selected{{/if}}>
+                            {{this.titulo}}
+                        </option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="fechaPrestamo" class="form-label">Fecha de Préstamo</label>
+                <input type="date" class="form-control" id="fechaPrestamo" name="FechaPrestamo" value="{{formatDate prestamo.FechaPrestamo}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="fechaDevolucion" class="form-label">Fecha de Devolución</label>
+                <input type="date" class="form-control" id="fechaDevolucion" name="FechaDevolucion" value="{{formatDate prestamo.FechaDevolucion}}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="/prestamos" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('editPrestamoForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const prestamoData = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/prestamos/{{prestamo.idPrestamos}}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(prestamoData)
+        });
+
+        if (response.ok) {
+            alert('Préstamo actualizado correctamente');
+            window.location.href = '/prestamos';
+        } else {
+            const errorData = await response.json();
+            alert('Error al actualizar préstamo: ' + errorData.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al conectar con el servidor');
+    }
+});
+</script>

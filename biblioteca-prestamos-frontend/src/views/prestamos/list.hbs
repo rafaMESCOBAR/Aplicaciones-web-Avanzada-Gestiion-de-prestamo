@@ -1,0 +1,61 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title mb-4">Gestión de Préstamos</h1>
+        <div class="mb-3">
+            <a href="/prestamos/add" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Añadir Préstamo
+            </a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Libro</th>
+                        <th>Fecha Préstamo</th>
+                        <th>Fecha Devolución</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each prestamos}}
+                    <tr>
+                        <td>{{this.idPrestamos}}</td>
+                        <td>{{this.NombreUsuario}}</td>
+                        <td>{{this.TituloLibro}}</td>
+                        <td>{{formatDate this.FechaPrestamo}}</td>
+                        <td>{{formatDate this.FechaDevolucion}}</td>
+                        <td>
+                            <a href="/prestamos/view/{{this.idPrestamos}}" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
+                            <a href="/prestamos/edit/{{this.idPrestamos}}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+                            <button onclick="deletePrestamo({{this.idPrestamos}})" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+async function deletePrestamo(id) {
+    if (confirm('¿Estás seguro de que quieres eliminar este préstamo?')) {
+        try {
+            const response = await fetch(`http://localhost:5000/api/prestamos/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                const errorData = await response.json();
+                alert('Error al eliminar préstamo: ' + errorData.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al conectar con el servidor');
+        }
+    }
+}
+</script>

@@ -1,0 +1,23 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title mb-4">Detalles del Usuario</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>ID del Usuario:</strong> {{usuario.idUsuario}}</p>
+                <p><strong>Número de Usuario:</strong> {{usuario.NumeroDeUsuario}}</p>
+                <p><strong>NIF:</strong> {{usuario.NIF}}</p>
+                <p><strong>Nombre:</strong> {{usuario.Nombre}}</p>
+                <p><strong>Dirección:</strong> {{usuario.Direccion}}</p>
+                <p><strong>Teléfono:</strong> {{usuario.Telefono}}</p>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="/usuarios" class="btn btn-primary">
+                <i class="bi bi-arrow-left"></i> Volver a la lista
+            </a>
+            <a href="/usuarios/edit/{{usuario.idUsuario}}" class="btn btn-secondary">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+        </div>
+    </div>
+</div>

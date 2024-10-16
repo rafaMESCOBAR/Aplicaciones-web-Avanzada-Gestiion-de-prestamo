@@ -1,0 +1,79 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title mb-4">Añadir Libro</h1>
+        <form id="addBookForm" enctype="multipart/form-data">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="bookCode" class="form-label">Código</label>
+                    <input type="text" class="form-control" id="bookCode" name="codigo" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="bookTitle" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="bookTitle" name="titulo" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="bookAuthor" class="form-label">Autor</label>
+                    <select class="form-select" id="bookAuthor" name="autores" multiple required>
+                        {{#each autores}}
+                            <option value="{{this.idAutor}}">{{this.Nombre}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="bookISBN" class="form-label">ISBN</label>
+                    <input type="text" class="form-control" id="bookISBN" name="isbn" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="bookEditorial" class="form-label">Editorial</label>
+                    <input type="text" class="form-control" id="bookEditorial" name="editorial" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="bookPages" class="form-label">Número de Páginas</label>
+                    <input type="number" class="form-control" id="bookPages" name="numeroDePaginas" required min="1">
+                </div>
+                <div class="col-md-6">
+                    <label for="bookImage" class="form-label">Imagen</label>
+                    <input type="file" class="form-control" id="bookImage" name="imagen" accept="image/*">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar Libro
+                    </button>
+                    <a href="/libros" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addBookForm = document.getElementById('addBookForm');
+    
+    addBookForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        try {
+            const response = await fetch('http://localhost:5000/api/libros/add', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (response.ok) {
+                console.log('Libro añadido:', result);
+                alert('Libro añadido correctamente');
+                window.location.href = '/libros';
+            } else {
+                console.error('Error al añadir libro:', result.message || result.error);
+                alert('Error al añadir libro: ' + (result.message || result.error));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al conectar con el servidor');
+        }
+    });
+});
+</script>

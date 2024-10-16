@@ -1,0 +1,48 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title mb-4">Añadir Autor</h1>
+        <form id="addAutorForm">
+            <div class="mb-3">
+                <label for="autorNombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="autorNombre" name="Nombre" required>
+            </div>
+            <div class="mb-3">
+                <label for="autorNacional" class="form-label">Nacionalidad</label>
+                <input type="text" class="form-control" id="autorNacional" name="Nacional" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="/autores" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('addAutorForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const autorData = Object.fromEntries(formData.entries());
+    
+    try {
+        const response = await fetch('http://localhost:5000/api/autores', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(autorData)
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Autor añadido:', result);
+            window.location.href = '/autores';
+        } else {
+            const errorData = await response.json();
+            console.error('Error al añadir autor:', errorData.message);
+            alert('Error al añadir autor: ' + errorData.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al conectar con el servidor');
+    }
+});
+</script>

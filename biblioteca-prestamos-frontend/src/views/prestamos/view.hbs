@@ -1,0 +1,22 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title mb-4">Detalles del Préstamo</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>ID del Préstamo:</strong> {{prestamo.idPrestamos}}</p>
+                <p><strong>Usuario:</strong> {{prestamo.NombreUsuario}}</p>
+                <p><strong>Libro:</strong> {{prestamo.TituloLibro}}</p>
+                <p><strong>Fecha de Préstamo:</strong> {{formatDate prestamo.FechaPrestamo}}</p>
+                <p><strong>Fecha de Devolución:</strong> {{formatDate prestamo.FechaDevolucion}}</p>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="/prestamos" class="btn btn-primary">
+                <i class="bi bi-arrow-left"></i> Volver a la lista
+            </a>
+            <a href="/prestamos/edit/{{prestamo.idPrestamos}}" class="btn btn-secondary">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+        </div>
+    </div>
+</div>

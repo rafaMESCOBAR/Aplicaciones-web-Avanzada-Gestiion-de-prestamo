@@ -1,0 +1,46 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title mb-4">Editar Autor</h1>
+        <form id="editAutorForm">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="Nombre" value="{{autor.Nombre}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="nacional" class="form-label">Nacionalidad</label>
+                <input type="text" class="form-control" id="nacional" name="Nacional" value="{{autor.Nacional}}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="/autores" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('editAutorForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const autorData = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/autores/{{autor.idAutor}}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(autorData)
+        });
+
+        if (response.ok) {
+            alert('Autor actualizado correctamente');
+            window.location.href = '/autores';
+        } else {
+            const errorData = await response.json();
+            alert('Error al actualizar autor: ' + errorData.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al conectar con el servidor');
+    }
+});
+</script>
